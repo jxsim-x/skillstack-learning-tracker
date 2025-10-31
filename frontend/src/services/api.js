@@ -1,15 +1,16 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api/';
+const API_BASE_URL = 'http://localhost:8000/api';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, 
+  timeout: 120000, // 2 minutes for AI operations
 });
 
+// Request interceptor
 apiClient.interceptors.request.use(
   (config) => {
     console.log('Making request to:', config.url);
@@ -21,7 +22,7 @@ apiClient.interceptors.request.use(
   }
 );
 
-
+// Response interceptor
 apiClient.interceptors.response.use(
   (response) => {
     console.log('Response received from:', response.config.url);
@@ -30,7 +31,6 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response) {
       console.error('API Error:', error.response.status, error.response.data);
-      
       if (error.response.status === 404) {
         console.error('Resource not found');
       } else if (error.response.status === 500) {
@@ -39,16 +39,22 @@ apiClient.interceptors.response.use(
     } else if (error.request) {
       console.error('No response from server - check if backend is running');
     } else {
-
       console.error('Error:', error.message);
     }
-    
     return Promise.reject(error);
   }
 );
 
+// ============================================
+// SKILLS API - ALL ORIGINAL FUNCTIONS
+// ============================================
 
-export const getAllSkills = async (params = {}) => {
+/**
+ * Get all skills with optional filters
+ * @param {Object} params - Query parameters (status, category, search)
+ * @returns {Promise} Array of skills
+ */
+export const getAllSkills = async (params) => {
   try {
     const response = await apiClient.get('skills/', { params });
     return response.data;
@@ -59,9 +65,9 @@ export const getAllSkills = async (params = {}) => {
 };
 
 /**
-
- * @param {number} id 
- * @returns {Promise} 
+ * Get single skill by ID
+ * @param {number} id - Skill ID
+ * @returns {Promise} Skill detail
  */
 export const getSkill = async (id) => {
   try {
@@ -74,9 +80,9 @@ export const getSkill = async (id) => {
 };
 
 /**
-
- * @param {Object} skillData 
- * @returns {Promise} 
+ * Create new skill
+ * @param {Object} skillData - Skill data
+ * @returns {Promise} Created skill
  */
 export const createSkill = async (skillData) => {
   try {
@@ -89,10 +95,10 @@ export const createSkill = async (skillData) => {
 };
 
 /**
- 
+ * Update skill by ID
  * @param {number} id - Skill ID
  * @param {Object} skillData - Updated skill data
- * @returns {Promise}
+ * @returns {Promise} Updated skill
  */
 export const updateSkill = async (id, skillData) => {
   try {
@@ -105,6 +111,7 @@ export const updateSkill = async (id, skillData) => {
 };
 
 /**
+ * Delete skill by ID
  * @param {number} id - Skill ID
  * @returns {Promise} Empty response
  */
@@ -118,6 +125,10 @@ export const deleteSkill = async (id) => {
   }
 };
 
+// ============================================
+// AI FEATURES - NEW FUNCTIONS
+// ============================================
+
 /**
  * Get AI-powered resource recommendations for a skill
  * @param {number} id - Skill ID
@@ -125,7 +136,11 @@ export const deleteSkill = async (id) => {
  */
 export const getAIResources = async (id) => {
   try {
-    const response = await apiClient.post(`skills/${id}/ai-resources/`);
+    console.log('🔄 Fetching AI resources for skill:', id);
+    const response = await apiClient.post(`skills/${id}/ai-resources/`, {}, {
+      timeout: 120000
+    });
+    console.log('✅ AI resources received:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error getting AI resources:', error);
@@ -140,13 +155,21 @@ export const getAIResources = async (id) => {
  */
 export const getMasteryPrediction = async (id) => {
   try {
-    const response = await apiClient.post(`skills/${id}/mastery-predict/`);
+    console.log('🔄 Fetching mastery prediction for skill:', id);
+    const response = await apiClient.post(`skills/${id}/mastery-predict/`, {}, {
+      timeout: 120000
+    });
+    console.log('✅ Mastery prediction received:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error getting mastery prediction:', error);
     throw error;
   }
 };
+
+// ============================================
+// PROFILE & STREAK - ORIGINAL FUNCTIONS
+// ============================================
 
 /**
  * Get current streak data
@@ -176,6 +199,10 @@ export const updateStreak = async () => {
   }
 };
 
+// ============================================
+// DASHBOARD & SUMMARY - ORIGINAL FUNCTIONS
+// ============================================
+
 /**
  * Get dashboard statistics
  * @returns {Promise} Dashboard stats object
@@ -197,14 +224,13 @@ export const getDashboardStats = async () => {
 export const getWeeklySummary = async () => {
   try {
     const response = await apiClient.post('weekly-summary/');
-    
-    // Mock email console log (as per requirements)
-    console.log('===== WEEKLY SUMMARY EMAIL =====');
+    // Mock email console log as per requirements
+    console.log('📧 WEEKLY SUMMARY EMAIL');
     console.log('To: user@example.com');
     console.log('Subject: Your Weekly Learning Summary');
     console.log('---');
     console.log(response.data);
-    console.log('================================');
+    console.log('---');
     
     return response.data;
   } catch (error) {

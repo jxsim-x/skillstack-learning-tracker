@@ -16,26 +16,33 @@ class SkillViewSet(viewsets.ModelViewSet):
     - partial_update() - PATCH /api/skills/{id}/ - Partial update
     - destroy() - DELETE /api/skills/{id}/ - Delete skill
     """
-    queryset = Skill.objects.all()  
+     
     serializer_class = SkillSerializer
+    def get_queryset(self):
+        return Skill.objects.all()
+
     def list(self, request):
-        """
-        GET /api/skills/?status=started&category=frontend&search=react
-        Supports filtering by status, category, and search by name
-        """
-        queryset = self.queryset
+        
+        queryset = self.get_queryset()
+        
         
         status_filter = request.query_params.get('status', None)
         if status_filter:
             queryset = queryset.filter(status=status_filter)
         
+        
         category_filter = request.query_params.get('category', None)
         if category_filter:
             queryset = queryset.filter(category=category_filter)
         
+        
         search_query = request.query_params.get('search', None)
         if search_query:
             queryset = queryset.filter(skill_name__icontains=search_query)
+        
+        
+        queryset = queryset.order_by('-created_date')
+        
         
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
@@ -46,35 +53,76 @@ class SkillViewSet(viewsets.ModelViewSet):
         POST /api/skills/{id}/ai-resources/
         Generates AI-powered resource recommendations
         """
-        skill = self.get_object()  
+        from .utils import get_ai_resources
         
-        return Response({
-            'message': 'AI resources feature - will be implemented with Gemini',
-            'skill_id': skill.id,
-            'skill_name': skill.skill_name
-        }, status=status.HTTP_200_OK)
-    
-    @action(detail=True, methods=['post'], url_path='mastery-predict')
-    def mastery_predict(self, request, pk=None):
-        """
-        POST /api/skills/{id}/mastery-predict/
-        Predicts mastery timeline using AI
-        """
         skill = self.get_object()
         
+        # Check if already generated (cached)
+        if skill.recommended_resources and skill.recommended_resources != '{}':
+            try:
+                cached = skill.get_recommended_resources()
+                if cached and not cached.get('error'):
+                    return Response({
+                        'cached': True,
+                        'skill_id': skill.id,
+                        'skill_name': skill.skill_name,
+                        'resources': cached
+                    }, status=status.HTTP_200_OK)
+            except:
+                pass
+        
+        # Generate new recommendations
+        resources = get_ai_resources(skill.skill_name, skill.resource_type)
+        
+        # Save to database
+        
+        skill.save()
+        
         return Response({
-            'message': 'Mastery prediction feature - will be implemented with Gemini',
+            'cached': False,
             'skill_id': skill.id,
-            'skill_name': skill.skill_name
+            'skill_name': skill.skill_name,
+            'resources': resources
         }, status=status.HTTP_200_OK)
-
+        
+    @action(detail=True, methods=['post'], url_path='mastery-predict')
+    def mastery_predict(self, request, pk=None):
+        """POST /api/skills/{id}/mastery-predict/ - Get AI mastery prediction"""
+        try:
+            skill = self.get_object()
+            from .utils import predict_mastery
+            
+            # Generate prediction (no database save needed)
+            prediction = predict_mastery(
+                skill.skill_name,
+                skill.difficulty_rating,
+                float(skill.hours_spent)
+            )
+            
+            print(f"✅ Mastery prediction generated for: {skill.skill_name}")
+            return Response({
+                'success': True,
+                'prediction': prediction
+            }, status=status.HTTP_200_OK)
+            
+        except Exception as e:
+            print(f"❌ Error in mastery_predict: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            return Response({
+                'success': False,
+                'error': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     """
     Handles user profile CRUD operations
     """
-    queryset = UserProfile.objects.all()
+    
     serializer_class = UserProfileSerializer
+    def get_queryset(self):
+        return UserProfile.objects.all()
+
     
     @action(detail=False, methods=['get'], url_path='streak')
     def get_streak(self, request):

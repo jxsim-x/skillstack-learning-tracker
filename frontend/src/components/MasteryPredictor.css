@@ -1,0 +1,142 @@
+.mastery-predictor {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  color: white;
+  margin-top: var(--spacing-xl);
+}
+
+.mastery-predictor h3 {
+  color: white;
+  margin-bottom: var(--spacing-lg);
+}
+
+.prediction-loading {
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+
+.prediction-loading p {
+  color: white;
+  margin-top: var(--spacing-md);
+}
+
+.prediction-error {
+  background: rgba(255, 0, 0, 0.2);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  border-left: 4px solid #ff4444;
+}
+
+.prediction-container {
+  margin-top: var(--spacing-lg);
+}
+
+.prediction-card {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
+}
+
+.prediction-highlight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.prediction-value {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.prediction-label {
+  font-size: var(--font-size-lg);
+  opacity: 0.9;
+}
+
+.prediction-detail {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-sm) 0;
+  opacity: 0.95;
+}
+
+.progress-bar {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  height: 12px;
+  margin-top: var(--spacing-md);
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: white;
+  height: 100%;
+  border-radius: var(--radius-md);
+  transition: width 0.5s ease;
+}
+
+.prediction-section {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.prediction-section h4 {
+  color: white;
+  margin-bottom: var(--spacing-md);
+}
+
+.tips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tip-item {
+  display: flex;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.tip-number {
+  background: rgba(255, 255, 255, 0.3);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.ai-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.tool-badge {
+  background: rgba(255, 255, 255, 0.3);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+}
+
+.btn.btn-outline {
+  background: transparent;
+  border: 2px solid white;
+  color: #ffffff;        /* ← ADD THIS - MAKE TEXT WHITE */
+  font-weight: 600;
+}
+
+.btn.btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}

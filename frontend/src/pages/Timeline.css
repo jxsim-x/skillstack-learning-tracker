@@ -1,0 +1,233 @@
+.timeline-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+/* Header */
+.timeline-header-section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.timeline-header-section h1 {
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Timeline Wrapper */
+.timeline-wrapper {
+  position: relative;
+}
+
+/* Timeline Section */
+.timeline-section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.timeline-section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-xl);
+  font-size: var(--font-size-xl);
+}
+
+.section-icon {
+  font-size: var(--font-size-2xl);
+}
+
+.section-count {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* Timeline List */
+.timeline-list {
+  position: relative;
+  padding-left: var(--spacing-xl);
+}
+
+/* Vertical Line */
+.timeline-list::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+}
+
+/* Timeline Item */
+.timeline-item {
+  position: relative;
+  padding-bottom: var(--spacing-xl);
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+/* Timeline Dot */
+.timeline-dot {
+  position: absolute;
+  left: -31px;
+  top: 8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--primary-color);
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+/* Timeline Content */
+.timeline-content {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  flex: 1;
+  transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateX(4px);
+}
+
+/* Timeline Header */
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.timeline-skill-name {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  flex: 1;
+}
+
+.timeline-date {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* Timeline Details */
+.timeline-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.timeline-meta {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+}
+
+/* Timeline Platform & Notes */
+.timeline-platform,
+.timeline-notes {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin: var(--spacing-xs) 0 0 0;
+  line-height: 1.5;
+}
+
+.timeline-notes {
+  font-style: italic;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  max-width: 600px;
+  margin: var(--spacing-2xl) auto;
+}
+
+.empty-icon {
+  font-size: 5rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.empty-state h2 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-md);
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Loading & Error States */
+.loading-center,
+.error-center {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .timeline-container {
+    padding: var(--spacing-md);
+  }
+
+  .timeline-list {
+    padding-left: var(--spacing-lg);
+  }
+
+  .timeline-dot {
+    left: -26px;
+    width: 14px;
+    height: 14px;
+  }
+
+  .timeline-list::before {
+    left: 6px;
+  }
+
+  .timeline-header {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .timeline-date {
+    white-space: normal;
+  }
+
+  .timeline-content {
+    padding: var(--spacing-md);
+  }
+
+  .timeline-skill-name {
+    font-size: var(--font-size-base);
+  }
+}

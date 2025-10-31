@@ -40,6 +40,10 @@
   --font-size-xl: 1.25rem;
   --font-size-2xl: 1.5rem;
   --font-size-3xl: 2rem;
+
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* Reset and Base Styles */
@@ -61,10 +65,11 @@ body {
 }
 
 .App {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: var(--spacing-lg);
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* Typography */
@@ -253,5 +258,19 @@ p {
   
   h2 {
     font-size: var(--font-size-xl);
+  }
+}
+
+/* Main Content Area */
+.main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg) var(--spacing-2xl);
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 0 var(--spacing-md) var(--spacing-xl);
   }
 }
