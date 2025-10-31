@@ -1,15 +1,25 @@
 import os
-from dotenv import load_dotenv
-load_dotenv()
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = os.getenv('SECRET_KEY')
+
+# ✅ GET SECRET_KEY FROM ENV (remove quotes from .env)
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key-for-dev')
+
+# ✅ GET DEBUG FROM ENV
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
+
+# ✅ SET ALLOWED_HOSTS (ONE TIME ONLY - no duplicates!)
 ALLOWED_HOSTS = [
-     "localhost",
+    "localhost",
     "127.0.0.1",
-    "skillstack-learning-tracker-production.up.railway.app"
+    "skillstack-learning-tracker-production.up.railway.app",
 ]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -19,11 +29,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'skills', 
+    'skills',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # ✅ MUST BE FIRST
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,15 +62,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'skillstack.wsgi.application'
 
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -77,29 +84,25 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-
-import os
-
-ALLOWED_HOSTS = ['*']
+# Static files
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# ✅ CORS CONFIGURATION (ONE TIME ONLY - no duplicates!)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://skillstack-learning-tracker.vercel.app"
+    "https://skillstack-learning-tracker.vercel.app",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+# ✅ API KEY FROM ENV
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
