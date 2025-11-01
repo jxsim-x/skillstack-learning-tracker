@@ -11,13 +11,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key-for-dev')
 
 # ✅ GET DEBUG FROM ENV
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # ✅ SET ALLOWED_HOSTS (ONE TIME ONLY - no duplicates!)
 ALLOWED_HOSTS = [
+    "skillstack-learning-tracker-production.up.railway.app",
     "localhost",
     "127.0.0.1",
-    "skillstack-learning-tracker-production.up.railway.app",
 ]
 
 INSTALLED_APPS = [
@@ -100,7 +100,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://skillstack-learning-tracker.vercel.app",
 ]
 CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^https://skillstack-learning-.*\.vercel\.app$",
+    r"^https://skillstack-.*\.vercel\.app$",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
