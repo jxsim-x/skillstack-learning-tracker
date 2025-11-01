@@ -189,6 +189,165 @@ Frontend receives response
 
 ---
 
+## 📸 Screenshots
+
+### 1. Dashboard Overview
+![Dashboard](./screenshots/dashboard.png)![Dashboard](./screenshots/charts.png)
+*Main dashboard displaying comprehensive learning analytics with stats cards, current streak widget, and interactive data visualizations*
+
+**Features Shown:**
+- Total skills tracked with completion percentage
+- Total learning hours invested
+- Current streak counter with milestone badges
+- Pie chart showing skills distribution by category
+- Bar chart displaying hours invested per skill
+- Quick access to recent learning activities
+
+---
+
+### 2. Skill Management Interface
+![Skills List](./screenshots/skills-list.png)
+*Complete skills list with filtering, search, and CRUD operations*
+
+**Features Shown:**
+- Grid/list view of all tracked skills
+- Status badges (Started, In Progress, Completed)
+- Category labels for organization
+- Difficulty ratings (1-5 stars)
+- Edit and delete action buttons
+- Search bar for finding specific skills
+- Filter buttons for status-based views
+
+---
+
+### 3. Add/Edit Skill Form
+![Add Skill](./screenshots/add-skill.png)
+*Comprehensive form for creating and editing skills with validation*
+
+**Features Shown:**
+- Skill name input with character validation
+- Resource type selection (Video, Course, Article)
+- Platform specification (YouTube, Udemy, etc.)
+- Status dropdown (Started, In Progress, Completed)
+- Hours spent number input
+- Difficulty rating selector (1-5)
+- Notes textarea for additional details
+- Success/error feedback messages
+- Form validation in real-time
+
+---
+
+### 4. AI Resources Feature
+![AI Resources](./screenshots/ai-resources.png)
+*Google Gemini AI-powered learning resource recommendations*
+
+**Features Shown:**
+- "Get AI Resources" button triggering API call
+- Loading state animation
+- AI-generated resource list with:
+  - Video titles and YouTube links
+  - Official documentation URLs
+  - Course recommendations
+  - Difficulty indicators
+- Clickable resource links
+- Error handling with fallback messages
+
+---
+
+### 5. Mastery Prediction
+![Mastery Predict](./screenshots/mastery-predict.png)
+*AI-powered skill mastery timeline and completion prediction*
+
+**Features Shown:**
+- Estimated hours needed for skill mastery
+- Confidence score percentage
+- Estimated completion date
+- Personalized acceleration tips
+- AI-recommended tools (ChatGPT, Cursor, Copilot)
+- Visual progress bar
+- Loading state during API call
+
+---
+
+### 6. Data Visualization - Charts
+![Charts](./screenshots/charts.png)
+*Interactive charts for analytics and progress tracking*
+
+**Features Shown:**
+- **Pie Chart**: Skills distribution by category (Frontend, Backend, DevOps, etc.)
+- **Bar Chart**: Top 5 skills by hours invested
+- Color-coded segments for easy identification
+- Legend showing category breakdown
+- Responsive design for mobile screens
+- Real-time updates when data changes
+
+---
+
+### 7. Streak Gamification Widget
+![Streak Widget](./screenshots/streak-widget.png)
+*Gamified daily learning streak with milestone celebrations*
+
+**Features Shown:**
+- Animated flame icon (🔥) showing streak status
+- Large current streak number
+- Longest streak record
+- "Days in a row" motivational text
+- Milestone achievement popups:
+  - Day 1: 🔥 Badge "50% never start. You did!"
+  - Day 7: 🏆 Badge "Week Warrior!"
+  - Day 30: 👑 Badge "Monthly Master!"
+  - Day 100+: 💎 Badge "Century Club!"
+- CSS animations and transitions
+- Mobile-responsive sizing
+
+---
+
+### 8. Weekly Learning Summary Email
+![Weekly Summary](./screenshots/weekly-summary.png)
+*AI-generated weekly summary with email mockup and personalized insights*
+
+**Features Shown:**
+- Weekly statistics:
+  - Skills added this week
+  - Total hours learned
+  - Skills completed
+  - Current streak count
+- Category-wise breakdown (Frontend, Backend, DevOps hours)
+- **Personalized AI message** via Gemini:
+  - Motivational commentary
+  - Personalized recommendations
+  - Acceleration strategies
+- Milestone achievements
+- Next learning steps suggested by AI
+- Email console output showing:
+  - To: user@example.com
+  - Subject line
+  - Formatted email body
+  - Professional email structure
+
+---
+
+### 9. Timeline View
+![Timeline](./screenshots/timeline.png)
+*Chronological activity feed showing learning progression*
+
+**Features Shown:**
+- Activities grouped by time period (Today, This Week, Earlier)
+- Date headers for organization
+- Skill cards with details (name, category, hours, status)
+- Visual timeline connector (vertical line with dots)
+- Newest activities shown first
+- Mobile-friendly layout
+- Skill-specific information:
+  - Skill name and platform
+  - Resource type
+  - Hours invested
+  - Current progress status
+
+---
+
+
+
 ## Core Features & Implementation
 
 ### 1. Skill Management System
