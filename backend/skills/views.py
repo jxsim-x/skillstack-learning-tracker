@@ -185,7 +185,10 @@ def dashboard_stats(request):
         'id', 'skill_name', 'hours_spent', 'status'
     )  # ✅ FIXED: Added closing parenthesis
 
-    profile, created = UserProfile.objects.get_or_create(id=1)
+    try:
+        profile = UserProfile.objects.get(id=1)
+    except UserProfile.DoesNotExist:
+        profile = UserProfile.objects.create(id=1)
 
     return Response({
         'total_skills': total_skills,
