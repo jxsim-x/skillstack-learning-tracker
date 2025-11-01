@@ -22,33 +22,156 @@ This project demonstrates competency in:
 
 ---
 
-## Technical Architecture
+### System Architecture
+┌────────────────────────────────────────────────────────────────────────┐
+│                        SkillStack Architecture                          │
+└────────────────────────────────────────────────────────────────────────┘
 
-### System Design
+                           FRONTEND LAYER
+                    ┌──────────────────────────┐
+                    │   React Application      │
+                    │  (Vercel Deployment)     │
+                    │                          │
+                    │  • Dashboard             │
+                    │  • Skill Management      │
+                    │  • Timeline View         │
+                    │  • Charts & Analytics    │
+                    │  • Streak Widget         │
+                    └────────────┬─────────────┘
+                                 │
+                    HTTPS (Axios HTTP Client)
+                    Environment-aware Base URL
+                                 │
+                ┌────────────────┴────────────────┐
+                │                                 │
+                ▼                                 ▼
+        API REQUEST LAYER                 BACKEND LAYER
+                                    ┌──────────────────────────┐
+                                    │   Django REST API        │
+                                    │  (Railway Deployment)    │
+                                    │                          │
+                                    │  • ViewSets              │
+                                    │  • Serializers           │
+                                    │  • Custom Actions        │
+                                    │  • CORS Middleware       │
+                                    │  • Error Handling        │
+                                    └────────────┬─────────────┘
+                                                 │
+                    ┌────────────────────────────┼────────────────────────┐
+                    │                            │                        │
+                    ▼                            ▼                        ▼
+            ┌──────────────────┐        ┌──────────────────┐     ┌─────────────────┐
+            │   SQLite DB      │        │  Gemini API      │     │  Email Service  │
+            │  (Railway Vol.)  │        │  (Google Cloud)  │     │  (Console Mock) │
+            │                  │        │                  │     │                 │
+            │  • Skills Table  │        │  • Resources     │     │  • Weekly       │
+            │  • Users Table   │        │  • Predictions   │     │    Summary      │
+            │  • Profiles      │        │  • Summary Text  │     │  • Logging      │
+            │  • Streaks       │        │                  │     │                 │
+            └──────────────────┘        └──────────────────┘     └─────────────────┘
 
-┌─────────────────────┐ ┌──────────────────────┐
-│ React Frontend │ │ Django REST API │
-│ (Vercel) │ ◄────────► │ (Railway) │
-│ │ │ │
-│ - Dashboard │ │ - ViewSets │
-│ - Forms │ │ - Serializers │
-│ - Charts │ │ - Custom Actions │
-│ - State Management │ │ - Gemini Integration │
-└─────────────────────┘ └──────────────────────┘
-▲ ▲
-│ │
-│ ▼
-│ ┌─────────────────┐
-│ │ SQLite DB │
-│ │ (Railway Vol.) │
-│ └─────────────────┘
-│
-Axios HTTP ┌──────────────────┐
-Client │ Gemini API │
-(Environment-aware) │ (Google) │
-└──────────────────┘
+                           DEPLOYMENT PIPELINE
 
+    GitHub Repository
+           │
+           ├─────────────► Backend: git push ─────► Railway
+           │                                     (Auto-deploy)
+           │                    - Install deps
+           │                    - Run migrations
+           │                    - Collect static
+           │                    - Start Gunicorn
+           │
+           └─────────────► Frontend: git push ─────► Vercel
+                                                   (Auto-deploy)
+                                    - npm install
+                                    - npm run build
+                                    - Deploy dist/
+### Feature Architecture
+### 1. Skill Management Pipeline
 text
+User Interface (React)
+        │
+        ├─► Create Skill Form
+        │    └─► POST /api/skills/
+        │        └─► Serializer Validation
+        │            └─► Database Save
+        │                └─► Streak Update
+        │
+        ├─► View Skills List
+        │    └─► GET /api/skills/?filters
+        │        └─► Serializer Response
+        │            └─► React Re-render
+        │
+        └─► Delete Skill
+             └─► DELETE /api/skills/{id}/
+                 └─► Database Delete
+                     └─► Streak Recalculation
+### 2. AI Integration Pipeline
+text
+User clicks "Get AI Resources"
+        │
+        ▼
+GET /api/skills/{id}/ai-resources/
+        │
+        ▼
+Backend Custom Action (ViewSet)
+        │
+        ├─► Extract Skill Details
+        ├─► Build Gemini Prompt
+        ├─► Send API Request to Google
+        │
+        ▼
+Google Generative AI (Gemini)
+        │
+        ├─► Process Prompt
+        ├─► Generate Resources
+        ├─► Structure Response (JSON)
+        │
+        ▼
+Backend receives response
+        │
+        ├─► Parse JSON
+        ├─► Save to Skill.recommended_resources
+        ├─► Return to Frontend
+        │
+        ▼
+Frontend receives data
+        │
+        └─► Display in Modal/Card
+#### 3. Weekly Summary Email Pipeline
+text
+User clicks "Generate Weekly Summary"
+        │
+        ▼
+POST /api/weekly-summary/
+        │
+        ▼
+Backend calculates stats
+        │
+        ├─► Get this week's skills added
+        ├─► Calculate total hours
+        ├─► Get streak count
+        ├─► Get completed percentage
+        │
+        ▼
+Gemini generates motivational message
+        │
+        ├─► Build prompt with stats
+        ├─► Call Gemini API
+        ├─► Receive personalized message
+        │
+        ▼
+Mock Email Output (Console)
+        │
+        ├─► Log email header (To:, Subject:, etc.)
+        ├─► Log email body (Weekly summary + motivational text)
+        ├─► Log email footer
+        │
+        ▼
+Frontend receives response
+        │
+        └─► Display summary in modal
+            └─► Show as notification
 
 ### Tech Stack Rationale
 
@@ -156,7 +279,78 @@ text
 - React-ChartJS-2 for React component integration
 - Responsive canvas sizing for mobile devices
 
+### 6. Weekly Learning Summary with Email
+
+**API Endpoint:**
+POST /api/weekly-summary/ # Generate weekly summary and mock email
+
+text
+
+**Email Output Structure:**
+✉️ WEEKLY LEARNING SUMMARY EMAIL
+
+To: user@example.com
+Subject: Your Weekly Learning Summary - Nov 1, 2025
+Date: Saturday, November 1, 2025
+
+────────────────────────────────────────────
+
+📊 THIS WEEK'S LEARNING STATS:
+
+Skills Added: 3
+
+Total Hours Learned: 15.5
+
+Skills Completed: 2
+
+Current Streak: 7 days 🔥
+
+Completion Rate: 67%
+
+📈 CATEGORY BREAKDOWN:
+
+Frontend: 6 hours
+
+Backend: 5.5 hours
+
+DevOps: 4 hours
+
+🎯 PERSONALIZED MESSAGE (via Gemini AI):
+"You're on an incredible learning journey! Your 7-day streak shows
+remarkable dedication. You've made significant progress in Frontend
+development. Consider diving deeper into state management concepts
+next week to accelerate mastery. Keep up this momentum!"
+
+🏆 MILESTONES ACHIEVED:
+✅ Day 7 Streak: Week Warrior - Momentum is building!
+
+📚 RECOMMENDED NEXT STEPS:
+
+Practice advanced React patterns
+
+Build a full-stack project combining Frontend + Backend
+
+Document your learning journey
+
+────────────────────────────────────────────
+Generated: November 1, 2025 at 9:44 AM IST
+SkillStack Learning Tracker
+
+text
+
+**Implementation Approach:**
+- Calculates comprehensive weekly learning statistics (skills added, hours, completion %)
+- Fetches category-wise breakdown using Django ORM aggregation
+- Generates personalized motivational message using Google Gemini AI
+- Identifies and displays achieved milestones for the week
+- Provides AI-powered recommendations for next learning steps
+- Mocks email output to console (simulates real email service)
+- Returns structured JSON response for frontend display
+- Logs email content to console with professional formatting
+
 ---
+
+
 
 ## Backend Architecture Deep Dive
 
