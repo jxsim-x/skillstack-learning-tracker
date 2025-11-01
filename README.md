@@ -887,7 +887,7 @@ Gained hands-on experience with Infrastructure as Code (nixpacks.toml), automate
 - **GitHub Repository:** [(https://github.com/jxsim-x/skillstack-learning-tracker)]
 - **Live Application:** [https://skillstack-learning-tracker.vercel.app/](https://skillstack-learning-tracker.vercel.app/)
 - **API Documentation:** [https://skillstack-learning-tracker-production.up.railway.app/api/](https://skillstack-learning-tracker-production.up.railway.app/api/)
-- **Backend Status:** [https://skillstack-learning-tracker-production.up.railway.app/api/skills/](https://skillstack-learning-tracker-production.up.railway.app/api/skills/)
+- **Backend Status:** [https://skillstack-learning-tracker-production.up.railway.app](https://skillstack-learning-tracker-production.up.railway.app)
 
 ---
  
