@@ -99,6 +99,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "https://skillstack-learning-tracker.vercel.app",
 ]
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://skillstack-learning-.*\.vercel\.app$",
+]
 
 CORS_ALLOW_CREDENTIALS = True
 
