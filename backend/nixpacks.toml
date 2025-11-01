@@ -5,7 +5,9 @@ nixPkgs = ["python39"]
 cmds = ["pip install -r requirements.txt"]
 
 [phases.build]
-cmds = ["python manage.py collectstatic --noinput"]
+cmds = [
+    "python manage.py migrate",
+    "python manage.py collectstatic --noinput"]
 
 [start]
 cmd = "gunicorn skillstack.wsgi:application --bind 0.0.0.0:$PORT"
